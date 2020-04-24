@@ -40,10 +40,24 @@ public class Ppvis2 {
 		Button ButtonSearch = new Button(shell, SWT.NONE);
 		ButtonSearch.setText("Поиск");
 		ButtonSearch.setBounds(640, 50, 130, 30);
+		
+		ButtonSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				SearchWindow searchWindow = new SearchWindow(shell);
+			}
+		});
 
 		Button ButtonDelete = new Button(shell, SWT.NONE);
 		ButtonDelete.setText("Удаление записей");
 		ButtonDelete.setBounds(640, 90, 130, 30);
+		
+		ButtonDelete.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				DeleteWindow deleteWindow = new DeleteWindow(shell);
+			}
+		});
 
 		Button ButtonSave = new Button(shell, SWT.NONE);
 		ButtonSave.setText("Сохранить");
