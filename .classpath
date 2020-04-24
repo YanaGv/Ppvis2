@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Ulyan Yunakh/eclipse/java-2019-12/eclipse/plugins/swt-win-x64.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
