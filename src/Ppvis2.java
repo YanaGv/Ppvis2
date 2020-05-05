@@ -74,13 +74,32 @@ public class Ppvis2 {
 				fileSaveDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
 				fileSaveDialog.setFilterPath("C:\\");
 				fileSaveDialog.setFileName("data.xml");
-				writeXML.saveXML(fileSaveDialog.open());
+				String savePathString = fileSaveDialog.open();
+				if (savePathString != null)
+					writeXML.saveXML(savePathString);
 			}
 		});
 
 		Button ButtonLoad = new Button(shell, SWT.NONE);
 		ButtonLoad.setText("Загрузить");
 		ButtonLoad.setBounds(640, 220, 130, 30);
+		
+		ButtonLoad.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				FileDialog fileOpenDialog = new FileDialog(shell, SWT.OPEN);
+				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*.*)" });
+				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+				fileOpenDialog.setFilterPath("C:\\");
+				fileOpenDialog.setFileName("data.xml");
+				
+				ReadXMLFile saXmlFile = new ReadXMLFile();
+				
+				String filePathString = fileOpenDialog.open();
+				if (filePathString != null)
+					saXmlFile.readXML(filePathString);
+			}
+		});
 
 		shell.setSize(800, 300);
 		shell.open();
