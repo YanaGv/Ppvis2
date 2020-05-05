@@ -4,19 +4,22 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class ReadXMLFile {
+public class ReadXMLFile extends Ppvis2 {
 	public void readXML(String filePath){
 		try {
+			studentList = new ArrayList<>();
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 	        SAXParser parser;
 			parser = factory.newSAXParser();
 			XMLHandler handler = new XMLHandler();
-			parser.parse(new File(filePath), handler);	        
+			parser.parse(new File(filePath), handler);	
+			updateTable();
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (SAXException se) {
@@ -24,13 +27,20 @@ public class ReadXMLFile {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		
 	}
 	private static class XMLHandler extends DefaultHandler {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) {
             if (qName.equals("student")) {
-                String name = attributes.getValue("name");
-                String group = attributes.getValue("group");
+            	Student student = new Student();
+                student.setName(attributes.getValue("name"));
+                student.setCourse(Integer.parseInt(attributes.getValue("course")));
+                student.setGroup(Integer.parseInt(attributes.getValue("group")));
+                student.setTasks(Integer.parseInt(attributes.getValue("tasks")));
+                student.setCompletedTasks(Integer.parseInt(attributes.getValue("completedTasks")));
+                student.setLanguage(attributes.getValue("language"));
+                studentList.add(student);
             }
         }
     }

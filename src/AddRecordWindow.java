@@ -54,7 +54,25 @@ public class AddRecordWindow extends Ppvis2 {
 		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				writeXML.addRecord(textName.getText(), textCourse.getText(), textGroup.getText(), textTasks.getText(), textCompletedTasks.getText(), textLanguage.getText());
+				Student student = new Student();
+				student.setName(textName.getText());
+				
+				int parsedText = Integer.parseInt(textCourse.getText());
+				student.setCourse(parsedText);
+				
+				parsedText = Integer.parseInt(textGroup.getText());
+				student.setGroup(parsedText);
+				
+				parsedText = Integer.parseInt(textTasks.getText());
+				student.setTasks(parsedText);
+				
+				parsedText = Integer.parseInt(textCompletedTasks.getText());
+				student.setCompletedTasks(parsedText);
+				
+				student.setLanguage(textLanguage.getText());
+				studentList.add(student);
+				updateTable();
+				shell.close();
 			}
 		});
 

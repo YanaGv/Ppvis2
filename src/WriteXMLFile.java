@@ -11,7 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class WriteXMLFile {
+public class WriteXMLFile extends Ppvis2 {
 	private static DocumentBuilderFactory docFactory;
 	private static DocumentBuilder docBuilder;
 	private static Document doc;
@@ -32,6 +32,8 @@ public class WriteXMLFile {
 	
 	public void saveXML(String savePath) {
 		try {
+			for(Student student: studentList)
+				addRecord(student);
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer;
 			transformer = transformerFactory.newTransformer();
@@ -46,14 +48,14 @@ public class WriteXMLFile {
 		}
 	}
 	
-    public void addRecord(String inputName, String inputCourse, String inputGroup, String inputTasks, String inputCompletedTasks, String inputLanguage) {
+    public void addRecord(Student inputStudent) {
         Element student = doc.createElement("student");
         rootElement.appendChild(student);
-        student.setAttribute("name", inputName);
-        student.setAttribute("course", inputCourse);
-        student.setAttribute("group", inputGroup);
-        student.setAttribute("tasks", inputTasks);
-        student.setAttribute("completedTasks", inputCompletedTasks);
-        student.setAttribute("language", inputLanguage);
+        student.setAttribute("name", inputStudent.getName());
+        student.setAttribute("course", ""+inputStudent.getCourse());
+        student.setAttribute("group", ""+inputStudent.getGroup());
+        student.setAttribute("tasks", ""+inputStudent.getTasks());
+        student.setAttribute("completedTasks", ""+inputStudent.getCompletedTasks());
+        student.setAttribute("language", inputStudent.getLanguage());
     }
 }

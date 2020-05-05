@@ -1,25 +1,51 @@
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 public class Ppvis2 {
-	static WriteXMLFile writeXML = new WriteXMLFile();
-
+	static ArrayList<Student> studentList = new ArrayList<>();
+	static Table table;
+	static Label labelRecordCount;
+	static Label labelListCount;
+	static int listCurrent = 0;
+	static double listCount = 0;
+	static int tableSize = 10;
+	
+	protected static void updateTable() {
+		table.removeAll();
+		listCount = Math.ceil((studentList.size() - 1) / tableSize);
+		labelRecordCount.setText("Всего записей: " + studentList.size());
+		labelListCount.setText("Страница " + (listCurrent + 1) + " из " + ((int)listCount + 1));
+		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
+			TableItem item = new TableItem(table, SWT.NULL);
+			item.setText(0, studentList.get(i).getName());
+			item.setText(1, ""+studentList.get(i).getCourse());
+			item.setText(2, ""+studentList.get(i).getGroup());
+			item.setText(3, ""+studentList.get(i).getTasks());
+			item.setText(4, ""+studentList.get(i).getCompletedTasks());
+			item.setText(5, studentList.get(i).getLanguage());
+		}
+	}
+	
 	public static void main(String[] args) {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setText("Главное окно");
 
-		Table table = new Table(shell, SWT.V_SCROLL | SWT.FULL_SELECTION);
+		table = new Table(shell, SWT.V_SCROLL | SWT.FULL_SELECTION);
 		table.setHeaderVisible(true);
-		String[] titles = { "Ф.И.О.", "Курс", "Группа", "Общее число работ", "Кол-во выполненных работ",
+		String[] titles = { "Фамилия И.О.", "Курс", "Группа", "Общее число работ", "Кол-во выполненных работ",
 				"Язык программирования" };
 		for (int i = 0; i < titles.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
@@ -27,11 +53,92 @@ public class Ppvis2 {
 		}
 		for (int i = 0; i < titles.length; i++)
 			table.getColumn(i).pack();
-		table.setBounds(10, 10, 610, 240);
+		table.setBounds(10, 10, 650, 240);
+		
+		Label labelTableSize = new Label(shell, SWT.NONE);
+		labelTableSize.setText("Записей на одной странице:");
+		labelTableSize.setBounds(10, 260, 160, 20);
+		
+		Text textTableSize = new Text(shell, SWT.BORDER);
+		textTableSize.setText("10");
+		textTableSize.setBounds(170, 260, 30, 20);
+		
+		Button buttonSetTableSize = new Button(shell, SWT.NONE);
+		buttonSetTableSize.setText("Применить");
+		buttonSetTableSize.setBounds(205, 259, 80, 22);
+		
+		buttonSetTableSize.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				tableSize = Integer.parseInt(textTableSize.getText());
+				listCurrent = 0;
+				updateTable();
+			}
+		});
+		
+		labelRecordCount = new Label(shell, SWT.NONE);
+		labelRecordCount.setText("Всего записей: "+studentList.size());
+		labelRecordCount.setBounds(290, 260, 100, 20);
+		
+		labelListCount = new Label(shell, SWT.NONE);
+		labelListCount.setText("Страница "+listCurrent+" из "+(int)listCount);
+		labelListCount.setBounds(500, 260, 100, 20);
+		
+		Button buttonFirstList = new Button(shell, SWT.NONE);
+		buttonFirstList.setText("<<");
+		buttonFirstList.setBounds(440, 259, 25, 22);
+		
+		buttonFirstList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				listCurrent = 0;
+				updateTable();
+			}
+		});
+		
+		Button buttonPastList = new Button(shell, SWT.NONE);
+		buttonPastList.setText("<");
+		buttonPastList.setBounds(470, 259, 20, 22);
+		
+		buttonPastList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (listCurrent != 0) {
+					listCurrent--;
+					updateTable();
+				}
+			}
+		});
+		
+		Button buttonNextList = new Button(shell, SWT.NONE);
+		buttonNextList.setText(">");
+		buttonNextList.setBounds(600, 259, 20, 22);
+		
+		buttonNextList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (listCurrent != listCount) {
+					listCurrent++;
+					updateTable();
+				}
+			}
+		});
+		
+		Button buttonLastList = new Button(shell, SWT.NONE);
+		buttonLastList.setText(">>");
+		buttonLastList.setBounds(625, 259, 25, 22);
+		
+		buttonLastList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				listCurrent = (int) listCount;
+				updateTable();
+			}
+		});
 
 		Button buttonAddRecord = new Button(shell, SWT.NONE);
 		buttonAddRecord.setText("Добавить запись");
-		buttonAddRecord.setBounds(640, 10, 130, 30);
+		buttonAddRecord.setBounds(680, 10, 130, 30);
 
 		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -42,7 +149,7 @@ public class Ppvis2 {
 
 		Button ButtonSearch = new Button(shell, SWT.NONE);
 		ButtonSearch.setText("Поиск");
-		ButtonSearch.setBounds(640, 50, 130, 30);
+		ButtonSearch.setBounds(680, 50, 130, 30);
 
 		ButtonSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -53,7 +160,7 @@ public class Ppvis2 {
 
 		Button ButtonDelete = new Button(shell, SWT.NONE);
 		ButtonDelete.setText("Удаление записей");
-		ButtonDelete.setBounds(640, 90, 130, 30);
+		ButtonDelete.setBounds(680, 90, 130, 30);
 
 		ButtonDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -64,7 +171,7 @@ public class Ppvis2 {
 
 		Button ButtonSave = new Button(shell, SWT.NONE);
 		ButtonSave.setText("Сохранить");
-		ButtonSave.setBounds(640, 180, 130, 30);
+		ButtonSave.setBounds(680, 180, 130, 30);
 		
 		ButtonSave.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -74,15 +181,18 @@ public class Ppvis2 {
 				fileSaveDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
 				fileSaveDialog.setFilterPath("C:\\");
 				fileSaveDialog.setFileName("data.xml");
+				
+				WriteXMLFile domXML = new WriteXMLFile();
+				
 				String savePathString = fileSaveDialog.open();
 				if (savePathString != null)
-					writeXML.saveXML(savePathString);
+					domXML.saveXML(savePathString);
 			}
 		});
 
 		Button ButtonLoad = new Button(shell, SWT.NONE);
 		ButtonLoad.setText("Загрузить");
-		ButtonLoad.setBounds(640, 220, 130, 30);
+		ButtonLoad.setBounds(680, 220, 130, 30);
 		
 		ButtonLoad.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -93,15 +203,15 @@ public class Ppvis2 {
 				fileOpenDialog.setFilterPath("C:\\");
 				fileOpenDialog.setFileName("data.xml");
 				
-				ReadXMLFile saXmlFile = new ReadXMLFile();
+				ReadXMLFile saxXML = new ReadXMLFile();
 				
 				String filePathString = fileOpenDialog.open();
 				if (filePathString != null)
-					saXmlFile.readXML(filePathString);
+					saxXML.readXML(filePathString);
 			}
 		});
 
-		shell.setSize(800, 300);
+		shell.setSize(850, 330);
 		shell.open();
 		while (!shell.isDisposed())
 			if (!display.readAndDispatch())
