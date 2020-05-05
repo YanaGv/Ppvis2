@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class AddRecordWindow {
+public class AddRecordWindow extends Ppvis2 {
 	public AddRecordWindow(Shell parent) {
 		Shell shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM);
 		shell.setText("Добавление записи");
@@ -50,6 +50,13 @@ public class AddRecordWindow {
 		Button buttonAddRecord = new Button(shell, SWT.NONE);
 		buttonAddRecord.setBounds(10, 200, 155, 30);
 		buttonAddRecord.setText("Добавить запись");
+		
+		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				writeXML.addRecord(textName.getText(), textCourse.getText(), textGroup.getText(), textTasks.getText(), textCompletedTasks.getText(), textLanguage.getText());
+			}
+		});
 
 		Button buttonCancel = new Button(shell, SWT.NONE);
 		buttonCancel.setBounds(175, 200, 155, 30);

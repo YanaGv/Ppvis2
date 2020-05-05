@@ -3,18 +3,21 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 public class Ppvis2 {
+	static WriteXMLFile writeXML = new WriteXMLFile();
 
 	public static void main(String[] args) {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setText("Главное окно");
 
-		Table table = new Table(shell, SWT.V_SCROLL | SWT.MULTI);
+		Table table = new Table(shell, SWT.V_SCROLL | SWT.FULL_SELECTION);
 		table.setHeaderVisible(true);
 		String[] titles = { "Ф.И.О.", "Курс", "Группа", "Общее число работ", "Кол-во выполненных работ",
 				"Язык программирования" };
@@ -40,7 +43,7 @@ public class Ppvis2 {
 		Button ButtonSearch = new Button(shell, SWT.NONE);
 		ButtonSearch.setText("Поиск");
 		ButtonSearch.setBounds(640, 50, 130, 30);
-		
+
 		ButtonSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -51,7 +54,7 @@ public class Ppvis2 {
 		Button ButtonDelete = new Button(shell, SWT.NONE);
 		ButtonDelete.setText("Удаление записей");
 		ButtonDelete.setBounds(640, 90, 130, 30);
-		
+
 		ButtonDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -62,6 +65,18 @@ public class Ppvis2 {
 		Button ButtonSave = new Button(shell, SWT.NONE);
 		ButtonSave.setText("Сохранить");
 		ButtonSave.setBounds(640, 180, 130, 30);
+		
+		ButtonSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				FileDialog fileSaveDialog = new FileDialog(shell, SWT.SAVE);
+				fileSaveDialog.setFilterNames(new String[] { "XML Files", "All Files (*.*)" });
+				fileSaveDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+				fileSaveDialog.setFilterPath("C:\\");
+				fileSaveDialog.setFileName("data.xml");
+				writeXML.saveXML(fileSaveDialog.open());
+			}
+		});
 
 		Button ButtonLoad = new Button(shell, SWT.NONE);
 		ButtonLoad.setText("Загрузить");
