@@ -28,14 +28,18 @@ public class Ppvis2 {
 		labelRecordCount.setText("Всего записей: " + studentList.size());
 		labelListCount.setText("Страница " + (listCurrent + 1) + " из " + ((int)listCount + 1));
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
-			TableItem item = new TableItem(table, SWT.NULL);
-			item.setText(0, studentList.get(i).getName());
-			item.setText(1, ""+studentList.get(i).getCourse());
-			item.setText(2, ""+studentList.get(i).getGroup());
-			item.setText(3, ""+studentList.get(i).getTasks());
-			item.setText(4, ""+studentList.get(i).getCompletedTasks());
-			item.setText(5, studentList.get(i).getLanguage());
+			addTableItem(table, studentList.get(i));
 		}
+	}
+	
+	protected static void addTableItem(Table table, Student student) {
+		TableItem item = new TableItem(table, SWT.NULL);
+		item.setText(0, student.getName());
+		item.setText(1, ""+student.getCourse());
+		item.setText(2, ""+student.getGroup());
+		item.setText(3, ""+student.getTasks());
+		item.setText(4, ""+student.getCompletedTasks());
+		item.setText(5, student.getLanguage());
 	}
 	
 	public static void main(String[] args) {
