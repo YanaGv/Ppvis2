@@ -11,6 +11,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class ReadXMLFile extends Ppvis2 {
+	
+	//чтение и запись XML файла в studentList
 	public void readXML(String filePath){
 		try {
 			studentList = new ArrayList<>();
@@ -27,8 +29,9 @@ public class ReadXMLFile extends Ppvis2 {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
 	}
+	
+	//класс XMLHandler с переопределенным методом startElement из DefaultHandler
 	private static class XMLHandler extends DefaultHandler {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) {

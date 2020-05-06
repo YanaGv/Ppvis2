@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class SearchWindow extends Ppvis2 {
 	private int searchOptionCheck = 0;
+	
 	private Table table;
 	private Label label;
 	private Text textName;
@@ -25,29 +26,31 @@ public class SearchWindow extends Ppvis2 {
 	private Combo comboLanguage;
 	private Combo comboTasks;
 	
+	//поиск записей в массиве studentList
 	private void search() {
 		table.removeAll();
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
 			if (searchOptionCheck == 0 && studentList.get(i).getName().startsWith(textName.getText()))
 				addTableItem(table, studentList.get(i));
-			if (searchOptionCheck == 1 && studentList.get(i).getCourse() == Integer.parseInt(textCourse.getText()))
+			else if (searchOptionCheck == 1 && studentList.get(i).getCourse() == Integer.parseInt(textCourse.getText()))
 				addTableItem(table, studentList.get(i));
-			if (searchOptionCheck == 2 && studentList.get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
+			else if (searchOptionCheck == 2 && studentList.get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
 				addTableItem(table, studentList.get(i));
-			if (searchOptionCheck == 3) {
+			else if (searchOptionCheck == 3) {
 				int notCompletedTasks = studentList.get(i).getTasks() - studentList.get(i).getCompletedTasks();
 				if(notCompletedTasks == Integer.parseInt(textNotCompletedTasks.getText()))
 					addTableItem(table, studentList.get(i));
 			}
-			if (searchOptionCheck == 4 && studentList.get(i).getGroup() == Integer.parseInt(textGroup.getText()))
+			else if (searchOptionCheck == 4 && studentList.get(i).getGroup() == Integer.parseInt(textGroup.getText()))
 				addTableItem(table, studentList.get(i));
-			if (searchOptionCheck == 5 && studentList.get(i).getLanguage().equals(comboLanguage.getText()))
+			else if (searchOptionCheck == 5 && studentList.get(i).getLanguage().equals(comboLanguage.getText()))
 				addTableItem(table, studentList.get(i));
-			if (searchOptionCheck == 6 && studentList.get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
+			else if (searchOptionCheck == 6 && studentList.get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
 				addTableItem(table, studentList.get(i));
 		}
 	}
 	
+	//удаление всех компонент в composite
 	private void clearComposite(Composite composite) {
 		Control[] array = composite.getChildren();
 		for (int i = 0; i < array.length; i++) {
@@ -55,6 +58,7 @@ public class SearchWindow extends Ppvis2 {
 		}
 	}
 	
+	//проверка на содержние строки string в элементах combo
 	private boolean checkComboContent(Combo combo, String string) {
 		String[] comboContent = combo.getItems();
 		for(String content: comboContent) {
@@ -63,13 +67,15 @@ public class SearchWindow extends Ppvis2 {
 		return true;
 	}
 	
+	//заполнение combo элементами
 	private void fillCombo(Combo combo, int checkField) {
+		combo.removeAll();
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
 			if (checkField == 1 && checkComboContent(combo, studentList.get(i).getLanguage()))
 				combo.add(studentList.get(i).getLanguage());
-			if (checkField == 2 && checkComboContent(combo, ""+studentList.get(i).getCompletedTasks()))
+			else if (checkField == 2 && checkComboContent(combo, ""+studentList.get(i).getCompletedTasks()))
 				combo.add(""+studentList.get(i).getCompletedTasks());
-			if (checkField == 3 && checkComboContent(combo, ""+studentList.get(i).getTasks()))
+			else if (checkField == 3 && checkComboContent(combo, ""+studentList.get(i).getTasks()))
 				combo.add(""+studentList.get(i).getTasks());
 		}
 	}
@@ -258,7 +264,6 @@ public class SearchWindow extends Ppvis2 {
 		Button buttonCancel = new Button(shell, SWT.NONE);
 		buttonCancel.setBounds(10, 430, 670, 30);
 		buttonCancel.setText("Закрыть окно поиска");
-
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {

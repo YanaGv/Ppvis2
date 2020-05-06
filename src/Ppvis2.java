@@ -22,6 +22,7 @@ public class Ppvis2 {
 	static double listCount = 0;
 	static int tableSize = 10;
 	
+	//обновление содержимого table
 	protected static void updateTable() {
 		table.removeAll();
 		listCount = Math.ceil((studentList.size() - 1) / tableSize);
@@ -32,6 +33,7 @@ public class Ppvis2 {
 		}
 	}
 	
+	//добавление в table нового item
 	protected static void addTableItem(Table table, Student student) {
 		TableItem item = new TableItem(table, SWT.NULL);
 		item.setText(0, student.getName());
@@ -70,7 +72,6 @@ public class Ppvis2 {
 		Button buttonSetTableSize = new Button(shell, SWT.NONE);
 		buttonSetTableSize.setText("Применить");
 		buttonSetTableSize.setBounds(205, 259, 80, 22);
-		
 		buttonSetTableSize.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -91,7 +92,6 @@ public class Ppvis2 {
 		Button buttonFirstList = new Button(shell, SWT.NONE);
 		buttonFirstList.setText("<<");
 		buttonFirstList.setBounds(440, 259, 25, 22);
-		
 		buttonFirstList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -103,7 +103,6 @@ public class Ppvis2 {
 		Button buttonPastList = new Button(shell, SWT.NONE);
 		buttonPastList.setText("<");
 		buttonPastList.setBounds(470, 259, 20, 22);
-		
 		buttonPastList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -117,7 +116,6 @@ public class Ppvis2 {
 		Button buttonNextList = new Button(shell, SWT.NONE);
 		buttonNextList.setText(">");
 		buttonNextList.setBounds(600, 259, 20, 22);
-		
 		buttonNextList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -131,7 +129,6 @@ public class Ppvis2 {
 		Button buttonLastList = new Button(shell, SWT.NONE);
 		buttonLastList.setText(">>");
 		buttonLastList.setBounds(625, 259, 25, 22);
-		
 		buttonLastList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -143,7 +140,6 @@ public class Ppvis2 {
 		Button buttonAddRecord = new Button(shell, SWT.NONE);
 		buttonAddRecord.setText("Добавить запись");
 		buttonAddRecord.setBounds(680, 10, 130, 30);
-
 		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -154,7 +150,6 @@ public class Ppvis2 {
 		Button ButtonSearch = new Button(shell, SWT.NONE);
 		ButtonSearch.setText("Поиск");
 		ButtonSearch.setBounds(680, 50, 130, 30);
-
 		ButtonSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -165,7 +160,6 @@ public class Ppvis2 {
 		Button ButtonDelete = new Button(shell, SWT.NONE);
 		ButtonDelete.setText("Удаление записей");
 		ButtonDelete.setBounds(680, 90, 130, 30);
-
 		ButtonDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -176,7 +170,6 @@ public class Ppvis2 {
 		Button ButtonSave = new Button(shell, SWT.NONE);
 		ButtonSave.setText("Сохранить");
 		ButtonSave.setBounds(680, 180, 130, 30);
-		
 		ButtonSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -197,7 +190,6 @@ public class Ppvis2 {
 		Button ButtonLoad = new Button(shell, SWT.NONE);
 		ButtonLoad.setText("Загрузить");
 		ButtonLoad.setBounds(680, 220, 130, 30);
-		
 		ButtonLoad.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {

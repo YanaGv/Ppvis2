@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class DeleteWindow extends Ppvis2 {
 	private int deleteOptionCheck = 0;
+	
 	private Label label;
 	private Text textName;
 	private Text textCourse;
@@ -23,6 +24,7 @@ public class DeleteWindow extends Ppvis2 {
 	private Combo comboTasks;
 	private Label labelResult;
 	
+	//удаление всех компонент в composite
 	private void clearComposite(Composite composite) {
 		Control[] array = composite.getChildren();
 		for (int i = 0; i < array.length; i++) {
@@ -30,6 +32,7 @@ public class DeleteWindow extends Ppvis2 {
 		}
 	}
 	
+	//проверка на содержние строки string в элементах combo
 	private boolean checkComboContent(Combo combo, String string) {
 		String[] comboContent = combo.getItems();
 		for(String content: comboContent) {
@@ -38,22 +41,26 @@ public class DeleteWindow extends Ppvis2 {
 		return true;
 	}
 	
+	//заполнение combo элементами
 	private void fillCombo(Combo combo, int checkField) {
+		combo.removeAll();
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
 			if (checkField == 1 && checkComboContent(combo, studentList.get(i).getLanguage()))
 				combo.add(studentList.get(i).getLanguage());
-			if (checkField == 2 && checkComboContent(combo, ""+studentList.get(i).getCompletedTasks()))
+			else if (checkField == 2 && checkComboContent(combo, ""+studentList.get(i).getCompletedTasks()))
 				combo.add(""+studentList.get(i).getCompletedTasks());
-			if (checkField == 3 && checkComboContent(combo, ""+studentList.get(i).getTasks()))
+			else if (checkField == 3 && checkComboContent(combo, ""+studentList.get(i).getTasks()))
 				combo.add(""+studentList.get(i).getTasks());
 		}
 	}
 	
+	//удаление записи из studentList
 	private int deleteRecord(int count) {
 		studentList.remove(count);
 		return count - 1;
 	}
 	
+	//удаление записей
 	private void delete() {
 		table.removeAll();
 		int allRecordCount = studentList.size();
@@ -61,20 +68,20 @@ public class DeleteWindow extends Ppvis2 {
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
 			if (deleteOptionCheck == 0 && studentList.get(i).getName().startsWith(textName.getText()))
 				i = deleteRecord(i);
-			if (deleteOptionCheck == 1 && studentList.get(i).getCourse() == Integer.parseInt(textCourse.getText()))
+			else if (deleteOptionCheck == 1 && studentList.get(i).getCourse() == Integer.parseInt(textCourse.getText()))
 				i = deleteRecord(i);
-			if (deleteOptionCheck == 2 && studentList.get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
+			else if (deleteOptionCheck == 2 && studentList.get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
 				i = deleteRecord(i);
-			if (deleteOptionCheck == 3) {
+			else if (deleteOptionCheck == 3) {
 				int notCompletedTasks = studentList.get(i).getTasks() - studentList.get(i).getCompletedTasks();
 				if(notCompletedTasks == Integer.parseInt(textNotCompletedTasks.getText()))
 					i = deleteRecord(i);
 			}
-			if (deleteOptionCheck == 4 && studentList.get(i).getGroup() == Integer.parseInt(textGroup.getText()))
+			else if (deleteOptionCheck == 4 && studentList.get(i).getGroup() == Integer.parseInt(textGroup.getText()))
 				i = deleteRecord(i);
-			if (deleteOptionCheck == 5 && studentList.get(i).getLanguage().equals(comboLanguage.getText()))
+			else if (deleteOptionCheck == 5 && studentList.get(i).getLanguage().equals(comboLanguage.getText()))
 				i = deleteRecord(i);
-			if (deleteOptionCheck == 6 && studentList.get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
+			else if (deleteOptionCheck == 6 && studentList.get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
 				i = deleteRecord(i);
 			recordCount++;
 			if (recordCount == tableSize) break;
@@ -242,6 +249,9 @@ public class DeleteWindow extends Ppvis2 {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				delete();
+				if (deleteOptionCheck == 5) fillCombo(comboLanguage, 1);
+				else if (deleteOptionCheck == 2)fillCombo(comboCompletedTasks, 2);
+				else if (deleteOptionCheck == 6) fillCombo(comboTasks, 3);
 			}
 		});
 
@@ -252,7 +262,6 @@ public class DeleteWindow extends Ppvis2 {
 		Button buttonCancel = new Button(shell, SWT.NONE);
 		buttonCancel.setBounds(10, 270, 500, 30);
 		buttonCancel.setText("Закрыть окно удаления");
-
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {

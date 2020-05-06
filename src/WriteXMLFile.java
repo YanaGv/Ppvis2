@@ -30,6 +30,7 @@ public class WriteXMLFile extends Ppvis2 {
 		}
 	}
 	
+	//сохранение studentList в XML файл 
 	public void saveXML(String savePath) {
 		try {
 			for(Student student: studentList)
@@ -48,7 +49,8 @@ public class WriteXMLFile extends Ppvis2 {
 		}
 	}
 	
-    public void addRecord(Student inputStudent) {
+	//добавление записи в XML
+    private void addRecord(Student inputStudent) {
         Element student = doc.createElement("student");
         rootElement.appendChild(student);
         student.setAttribute("name", inputStudent.getName());

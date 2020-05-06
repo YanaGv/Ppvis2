@@ -50,7 +50,6 @@ public class AddRecordWindow extends Ppvis2 {
 		Button buttonAddRecord = new Button(shell, SWT.NONE);
 		buttonAddRecord.setBounds(10, 200, 155, 30);
 		buttonAddRecord.setText("Добавить запись");
-		
 		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -79,7 +78,6 @@ public class AddRecordWindow extends Ppvis2 {
 		Button buttonCancel = new Button(shell, SWT.NONE);
 		buttonCancel.setBounds(175, 200, 155, 30);
 		buttonCancel.setText("Отменить");
-
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
