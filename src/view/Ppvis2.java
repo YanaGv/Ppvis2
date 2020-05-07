@@ -12,11 +12,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-import controller.Controller;
 import controller.ReadXMLFile;
 import controller.WriteXMLFile;
+import model.Model;
 
-public class Ppvis2 extends Controller {
+public class Ppvis2 {
+	static Model model = new Model();
+	
 	static Table table;
 	static Label labelRecordCount;
 	static Label labelListCount;
@@ -52,18 +54,18 @@ public class Ppvis2 extends Controller {
 		buttonSetTableSize.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				tableSize = Integer.parseInt(textTableSize.getText());
-				listCurrent = 0;
-				updateTable(table, labelRecordCount, labelListCount);
+				model.setTableSize(Integer.parseInt(textTableSize.getText()));
+				model.setListCurrent(0);
+				model.updateTable(table, labelRecordCount, labelListCount);
 			}
 		});
 		
 		labelRecordCount = new Label(shell, SWT.NONE);
-		labelRecordCount.setText("Всего записей: "+studentList.size());
+		labelRecordCount.setText("Всего записей: "+model.getStudentList().size());
 		labelRecordCount.setBounds(290, 260, 100, 20);
 		
 		labelListCount = new Label(shell, SWT.NONE);
-		labelListCount.setText("Страница "+listCurrent+" из "+(int)listCount);
+		labelListCount.setText("Страница "+model.getListCurrent()+" из "+(int)model.getListCount());
 		labelListCount.setBounds(500, 260, 100, 20);
 		
 		Button buttonFirstList = new Button(shell, SWT.NONE);
@@ -72,8 +74,8 @@ public class Ppvis2 extends Controller {
 		buttonFirstList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				listCurrent = 0;
-				updateTable(table, labelRecordCount, labelListCount);
+				model.setListCurrent(0);
+				model.updateTable(table, labelRecordCount, labelListCount);
 			}
 		});
 		
@@ -83,9 +85,9 @@ public class Ppvis2 extends Controller {
 		buttonPastList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (listCurrent != 0) {
-					listCurrent--;
-					updateTable(table, labelRecordCount, labelListCount);
+				if (model.getListCurrent() != 0) {
+					model.setListCurrent(model.getListCurrent() - 1);
+					model.updateTable(table, labelRecordCount, labelListCount);
 				}
 			}
 		});
@@ -96,9 +98,9 @@ public class Ppvis2 extends Controller {
 		buttonNextList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (listCurrent != listCount) {
-					listCurrent++;
-					updateTable(table, labelRecordCount, labelListCount);
+				if (model.getListCurrent() != model.getListCount()) {
+					model.setListCurrent(model.getListCurrent() + 1);
+					model.updateTable(table, labelRecordCount, labelListCount);
 				}
 			}
 		});
@@ -109,8 +111,8 @@ public class Ppvis2 extends Controller {
 		buttonLastList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				listCurrent = (int) listCount;
-				updateTable(table, labelRecordCount, labelListCount);
+				model.setListCurrent((int)model.getListCount());
+				model.updateTable(table, labelRecordCount, labelListCount);
 			}
 		});
 
@@ -181,7 +183,7 @@ public class Ppvis2 extends Controller {
 				String filePathString = fileOpenDialog.open();
 				if (filePathString != null)
 					saxXML.readXML(filePathString);
-				updateTable(table, labelRecordCount, labelListCount);
+				model.updateTable(table, labelRecordCount, labelListCount);
 			}
 		});
 

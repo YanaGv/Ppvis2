@@ -8,7 +8,9 @@ import org.eclipse.swt.widgets.Text;
 import model.Model;
 import model.Student;
 
-public class Controller extends Model{
+public class Controller{
+	Model model = new Model();
+	
 	public void addRecord(String name, String course, String group, 
 										String tasks, String complitedTasks, String language) {
 		Student student = new Student();
@@ -27,44 +29,44 @@ public class Controller extends Model{
 		student.setCompletedTasks(parsedText);
 		
 		student.setLanguage(language);
-		studentList.add(student);
+		model.getStudentList().add(student);
 	}
 	
 	//удаление записей
-	protected void delete(Table table, int deleteOptionCheck, Label labelResult, Text textName, Text textCourse, 
+	public void delete(Table table, int deleteOptionCheck, Label labelResult, Text textName, Text textCourse, 
 						Text textGroup, Text textNotCompletedTasks, Combo comboTasks,
 						Combo comboCompletedTasks, Combo comboLanguage) {
 		table.removeAll();
-		int allRecordCount = studentList.size();
+		int allRecordCount = model.getStudentList().size();
 		int recordCount = 0;
-		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
-			if (deleteOptionCheck == 0 && studentList.get(i).getName().startsWith(textName.getText()))
+		for (int i = model.getTableSize() * model.getListCurrent(); i < model.getTableSize() * model.getListCurrent() + model.getTableSize() && i < model.getStudentList().size(); i++) {
+			if (deleteOptionCheck == 0 && model.getStudentList().get(i).getName().startsWith(textName.getText()))
 				i = deleteRecord(i);
-			else if (deleteOptionCheck == 1 && studentList.get(i).getCourse() == Integer.parseInt(textCourse.getText()))
+			else if (deleteOptionCheck == 1 && model.getStudentList().get(i).getCourse() == Integer.parseInt(textCourse.getText()))
 				i = deleteRecord(i);
-			else if (deleteOptionCheck == 2 && studentList.get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
+			else if (deleteOptionCheck == 2 && model.getStudentList().get(i).getCompletedTasks() == Integer.parseInt(comboCompletedTasks.getText()))
 				i = deleteRecord(i);
 			else if (deleteOptionCheck == 3) {
-				int notCompletedTasksCount = studentList.get(i).getTasks() - studentList.get(i).getCompletedTasks();
+				int notCompletedTasksCount = model.getStudentList().get(i).getTasks() - model.getStudentList().get(i).getCompletedTasks();
 				if(notCompletedTasksCount == Integer.parseInt(textNotCompletedTasks.getText()))
 					i = deleteRecord(i);
 			}
-			else if (deleteOptionCheck == 4 && studentList.get(i).getGroup() == Integer.parseInt(textGroup.getText()))
+			else if (deleteOptionCheck == 4 && model.getStudentList().get(i).getGroup() == Integer.parseInt(textGroup.getText()))
 				i = deleteRecord(i);
-			else if (deleteOptionCheck == 5 && studentList.get(i).getLanguage().equals(comboLanguage.getText()))
+			else if (deleteOptionCheck == 5 && model.getStudentList().get(i).getLanguage().equals(comboLanguage.getText()))
 				i = deleteRecord(i);
-			else if (deleteOptionCheck == 6 && studentList.get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
+			else if (deleteOptionCheck == 6 && model.getStudentList().get(i).getTasks() == Integer.parseInt(comboTasks.getText()))
 				i = deleteRecord(i);
 			recordCount++;
-			if (recordCount == tableSize) break;
+			if (recordCount == model.getTableSize()) break;
 		}
-		labelResult.setText("Результат удаления: " + (allRecordCount - studentList.size()));
+		labelResult.setText("Результат удаления: " + (allRecordCount - model.getStudentList().size()));
 		
 	}
 
 	//удаление записи из studentList
 	private int deleteRecord(int count) {
-		studentList.remove(count);
+		model.getStudentList().remove(count);
 		return count - 1;
 	}
 }

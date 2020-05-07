@@ -8,7 +8,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import controller.Controller;
+
 public class AddRecordWindow extends Ppvis2 {
+	Controller controller = new Controller();
+	
 	public AddRecordWindow(Shell parent) {
 		Shell shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM);
 		shell.setText("Добавление записи");
@@ -55,10 +59,10 @@ public class AddRecordWindow extends Ppvis2 {
 		buttonAddRecord.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				addRecord(textName.getText(), textCourse.getText(), 
+				controller.addRecord(textName.getText(), textCourse.getText(), 
 						textGroup.getText(), textTasks.getText(), 
 						textCompletedTasks.getText(), textLanguage.getText());
-				updateTable(table, labelRecordCount, labelListCount);
+				model.updateTable(table, labelRecordCount, labelListCount);
 				shell.close();
 			}
 		});

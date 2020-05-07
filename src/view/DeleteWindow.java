@@ -13,7 +13,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import controller.Controller;
+
 public class DeleteWindow extends Ppvis2 {
+	Controller controller = new Controller();
+	
 	private int deleteOptionCheck = 0;
 	
 	private Label label;
@@ -103,7 +107,7 @@ public class DeleteWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboCompletedTasks = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboCompletedTasks.setBounds(5, 30, 485, 20);
-					fillCombo(comboCompletedTasks, 2);
+					model.fillCombo(comboCompletedTasks, 2);
 				}
 			}
 		});
@@ -161,7 +165,7 @@ public class DeleteWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboLanguage = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboLanguage.setBounds(5, 30, 485, 20);
-					fillCombo(comboLanguage, 1);
+					model.fillCombo(comboLanguage, 1);
 				}
 			}
 		});
@@ -181,7 +185,7 @@ public class DeleteWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboTasks = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboTasks.setBounds(5, 30, 485, 20);
-					fillCombo(comboTasks, 3);
+					model.fillCombo(comboTasks, 3);
 				}
 			}
 		});
@@ -192,13 +196,13 @@ public class DeleteWindow extends Ppvis2 {
 		buttonDelete.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				delete(table, deleteOptionCheck, labelResult, textName, textCourse, 
+				controller.delete(table, deleteOptionCheck, labelResult, textName, textCourse, 
 						textGroup, textNotCompletedTasks, comboTasks, 
 						comboCompletedTasks, comboLanguage);
-				updateTable(table, labelRecordCount, labelListCount);
-				if (deleteOptionCheck == 5) fillCombo(comboLanguage, 1);
-				else if (deleteOptionCheck == 2)fillCombo(comboCompletedTasks, 2);
-				else if (deleteOptionCheck == 6) fillCombo(comboTasks, 3);
+				model.updateTable(table, labelRecordCount, labelListCount);
+				if (deleteOptionCheck == 5) model.fillCombo(comboLanguage, 1);
+				else if (deleteOptionCheck == 2) model.fillCombo(comboCompletedTasks, 2);
+				else if (deleteOptionCheck == 6) model.fillCombo(comboTasks, 3);
 			}
 		});
 

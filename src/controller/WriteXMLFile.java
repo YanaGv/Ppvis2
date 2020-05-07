@@ -16,7 +16,9 @@ import org.w3c.dom.Element;
 import model.Model;
 import model.Student;
 
-public class WriteXMLFile extends Model {
+public class WriteXMLFile {
+	Model model = new Model();
+	
 	private static DocumentBuilderFactory docFactory;
 	private static DocumentBuilder docBuilder;
 	private static Document doc;
@@ -38,7 +40,7 @@ public class WriteXMLFile extends Model {
 	//сохранение studentList в XML файл 
 	public void saveXML(String savePath) {
 		try {
-			for(Student student: studentList)
+			for(Student student: model.getStudentList())
 				addRecord(student);
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer;

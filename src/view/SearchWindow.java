@@ -105,7 +105,7 @@ public class SearchWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboCompletedTasks = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboCompletedTasks.setBounds(5, 30, 650, 20);
-					fillCombo(comboCompletedTasks, 2);
+					model.fillCombo(comboCompletedTasks, 2);
 				}
 			}
 		});
@@ -163,7 +163,7 @@ public class SearchWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboLanguage = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboLanguage.setBounds(5, 30, 650, 20);
-					fillCombo(comboLanguage, 1);
+					model.fillCombo(comboLanguage, 1);
 				}
 			}
 		});
@@ -183,7 +183,7 @@ public class SearchWindow extends Ppvis2 {
 					label.setBounds(5, 5, 485, 20);
 					comboTasks = new Combo(compositeSearchElements, SWT.DROP_DOWN | SWT.READ_ONLY);
 					comboTasks.setBounds(5, 30, 650, 20);
-					fillCombo(comboTasks, 3);
+					model.fillCombo(comboTasks, 3);
 				}
 			}
 		});
@@ -194,7 +194,7 @@ public class SearchWindow extends Ppvis2 {
 		buttonSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				search(table, searchOptionCheck, textName, textCourse, 
+				model.search(table, searchOptionCheck, textName, textCourse, 
 						textGroup, textNotCompletedTasks, comboTasks, 
 						comboCompletedTasks, comboLanguage);
 			}

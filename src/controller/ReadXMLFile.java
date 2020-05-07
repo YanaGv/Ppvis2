@@ -9,18 +9,18 @@ import model.Student;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class ReadXMLFile extends Model {
+public class ReadXMLFile {
+	static Model model = new Model();
 	
 	//чтение и запись XML файла в studentList
 	public void readXML(String filePath){
 		try {
-			studentList = new ArrayList<>();
+			model.newStudentList();
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 	        SAXParser parser;
 			parser = factory.newSAXParser();
@@ -47,7 +47,7 @@ public class ReadXMLFile extends Model {
                 student.setTasks(Integer.parseInt(attributes.getValue("tasks")));
                 student.setCompletedTasks(Integer.parseInt(attributes.getValue("completedTasks")));
                 student.setLanguage(attributes.getValue("language"));
-                studentList.add(student);
+                model.getStudentList().add(student);
             }
         }
     }

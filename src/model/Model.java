@@ -16,8 +16,36 @@ public class Model {
 	protected static double listCount = 0;
 	protected static int tableSize = 10;
 	
+	public ArrayList<Student> getStudentList(){
+		return studentList;
+	}
+	
+	public void newStudentList() {
+		studentList = new ArrayList<>();
+	}
+	
+	public void setTableSize(int inputTableSize){
+		tableSize = inputTableSize;
+	}
+	
+	public int getTableSize(){
+		return tableSize;
+	}
+	
+	public void setListCurrent(int inputListCurrent){
+		 listCurrent = inputListCurrent;
+	}
+	
+	public int getListCurrent(){
+		return listCurrent;
+	}
+	
+	public double getListCount(){
+		return listCount;
+	}
+	
 	//обновление содержимого table
-	protected static void updateTable(Table table, Label labelRecordCount, Label labelListCount) {
+	public void updateTable(Table table, Label labelRecordCount, Label labelListCount) {
 		table.removeAll();
 		listCount = Math.ceil((studentList.size() - 1) / tableSize);
 		labelRecordCount.setText("Всего записей: " + studentList.size());
@@ -48,7 +76,7 @@ public class Model {
 	}
 	
 	//заполнение combo элементами с использованием studentList
-	protected void fillCombo(Combo combo, int checkField) {
+	public void fillCombo(Combo combo, int checkField) {
 		combo.removeAll();
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
 			if (checkField == 1 && checkComboContent(combo, studentList.get(i).getLanguage()))
@@ -61,7 +89,7 @@ public class Model {
 	}
 	
 	//поиск записей в массиве studentList
-	protected void search(Table table, int searchOptionCheck, Text textName, Text textCourse, 
+	public void search(Table table, int searchOptionCheck, Text textName, Text textCourse, 
 					Text textGroup, Text textNotCompletedTasks, Combo comboTasks, Combo comboCompletedTasks, Combo comboLanguage) {
 		table.removeAll();
 		for (int i = tableSize * listCurrent; i < tableSize * listCurrent + tableSize && i < studentList.size(); i++) {
